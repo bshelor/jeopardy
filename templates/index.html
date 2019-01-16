@@ -28,7 +28,47 @@
         </div>
     </div>
 
-    <div class="row mb-5 mt-5">
+    <div class="row mb-5 mt-5 text-center">
+        <div class="col-md-3">
+
+        </div>
+
+        <div class="col-md-6">
+            <hr>
+            <h6>Log in to track your scores</h6>
+
+            <br>
+
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <div class="form-group row">
+                    {{ form.username.label(class_="col-md-2") }}
+{#                    <label class="col-md-2 mr-0">Username</label>#}
+                    {{ form.username(class_="form-control col-md-3", placeholder="Username") }}
+{#                    <div class="col-md-4">#}
+{#                        <input type="text" class="form-control" placeholder="Username">#}
+{#                    </div>#}
+
+                    {{ form.password.label(class_="col-md-2") }}
+                    {{ form.password(class_="form-control col-md-3", placeholder="Password") }}
+
+                    {{ form.submit(class_="col-md-2 btn btn-primary") }}
+{#                    <label class="col-md-2 mr-0">Password</label>#}
+{#                    <div class="col-md-4">#}
+{#                        <input type="text" class="form-control" placeholder="Password">#}
+{#                    </div>#}
+                </div>
+            </form>
+
+            <br>
+
+            <p>Don't have an account? <a class="text-primary" href="#signup">Create one</a></p>
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
 
     </div>
 {% endblock %}

@@ -29,7 +29,7 @@ def disconnect():
 
 def get_all_users():
     query = '''
-    SELECT * FROM users'''
+    SELECT * FROM "user"'''
 
     g.cursor.execute(query)
     return g.cursor.fetchall()
