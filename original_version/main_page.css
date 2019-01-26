@@ -1,0 +1,17 @@
+html *{
+	font-family: 'Lato', sans-serif;
+	background-color: gray;	
+}
+
+.button {
+	padding: 10x;
+	background-color: blue;
+	color: white;
+	display: block;
+	width: 500px;
+	text-align: center;
+}
+
+a:link .button {
+	text-decoration: none;
+}

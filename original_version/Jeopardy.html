@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Jeopardy!</title>
+		<link rel="stylesheet" type="text/css" href="Jeopardy.css">
+		<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+		<link rel='shortcut icon' href='Jeopardy_Logo.jpg' type='image/x-icon'/>
+	</head>
+	<!-- http://vignette1.wikia.nocookie.net/logopedia/images/0/0f/Jeopardy_Logo.jpg/revision/latest?cb=20120814144600 -->
+	
+	<script src="Jeopardy.js"></script>
+	
+	<body>
+		<!-- Jeopardy Board -->
+		<div id="jepBoard">
+			<img src="Jeopardy_Logo.jpg" style="display:block; margin-left:auto; margin-right:auto;"></img>
+			<table border="1" style="width:100%">
+				<tr>
+					<th>Sports</th>
+					<th>Surfs Up!</th>
+					<th>Geography</th>
+					<th>Movies</th>
+					<th>Slogans</th>
+				</tr>
+				<tr>
+					<td align="center"><a href=#test id="c1-100" onclick="removeLetters(), checkDailyDouble('This Golden State Warriors player won NBA Finals MVP in 2018.', 'Who is Kevin Durant?', 'answerC1-100', 'c1-100', false)">100</a></td>
+					<td align="center"><a href=#test id="c2-100" onclick="removeLetters(), checkDailyDouble('What is the theme name of the Dining Hall this week?','What is Bo\'s Surf \'n\' Turf?','answerC2-100','c2-100',false)">100</a></td>
+					<td align="center"><a href=#test id="c3-100" onclick="removeLetters(), checkDailyDouble('This is the largest state in the US','What is Alaska?','answerC3-100','c3-100',false)">100</a></td>
+					<td align="center"><a href=#test id="c4-100" onclick="removeLetters(), checkDailyDouble('The name of the evil ruler in Star Wars Episode VII and VIII', 'Who is Emporer Snoake?','answerC4-100','c4-100',false)">100</a></td>
+					<td align="center"><a href=#test id="c5-100" onclick="removeLetters(), checkDailyDouble('\'Like a good neighbor...\'','What is State Farm?','answerC5-100','c5-100',false)">100</a></td>
+				</tr>
+				<tr>
+					<td align="center"><a href=#test id="c1-200" onclick="removeLetters(), checkDailyDouble('This is the name of the Minnesota Vikings stadium','What is US Bank Stadium?','answerC1-200','c1-200',false)">200</a></td>
+					<td align="center"><a href=#test id="c2-200" onclick="removeLetters(), checkDailyDouble('This is the term for going through a smaller wave that you don\'t want to ride.','What is an Eskimo Roll?','answerC2-200','c2-200',false)">200</a></td>
+					<td align="center"><a href=#test id="c3-200" onclick="removeLetters(), checkDailyDouble('This state experiences 300 days of sunshine each year','What is Colorado?','answerC3-200','c3-200',true)">200</a></td>
+					<td align="center"><a href=#test id="c4-200" onclick="removeLetters(), checkDailyDouble('Finish this phrase: \'My name is Inigo Montoya...\'','What is \'...you killed my father. Prepare to die.\'?','answerC4-200','c4-200',false)">200</a></td>
+					<td align="center"><a href=#test id="c5-200" onclick="removeLetters(), checkDailyDouble('\'Eat Mor Chikin\'','What is Chick Fil A?','answerC5-200','c5-200',false)">200</a></td>
+				</tr>
+				<tr>
+					<td align="center"><a href=#test id="c1-300" onclick="removeLetters(), checkDailyDouble('This FC Barcelona great missed a PK on Saturday','Who is Lionel Messi?','answerC1-300','c1-300',false)">300</a></td>
+					<td align="center"><a href=#test id="c2-300" onclick="removeLetters(), checkDailyDouble('This is the surfer term for a shark.','What is a Noah?','answerC2-300','c2-300',false)">300</a></td>
+					<td align="center"><a href=#test id="c3-300" onclick="removeLetters(), checkDailyDouble('This is the mailing address of camp','What is PO Box 165, Chandler, MN, 56122?','answerC3-300','c3-300',false)">300</a></td>
+					<td align="center"><a href=#test id="c4-300" onclick="removeLetters(), checkDailyDouble('The catchphrase of the Underminer villian at the end of Incredibles 1','What is \'I am always beneath you, but nothing is beneath me\'?','answerC4-300','c4-300',true)">300</a></td>
+					<td align="center"><a href=#test id="c5-300" onclick="removeLetters(), checkDailyDouble('\'What can brown do for you?\'','What is UPS?','answerC5-300','c5-300',false)">300</a></td>
+				</tr>
+				<tr>
+					<td align="center"><a href=#test id="c1-400" onclick="removeLetters(), checkDailyDouble('This European star just signed a contract with the MLS team LA Galaxy last year', 'Who is Zlatan Ibrahimovic?','answerC1-400','c1-400',false)">400</a></td>
+					<td align="center"><a href=#test id="c2-400" onclick="removeLetters(), checkDailyDouble('This is the surfing term on the first theme sign as you drive into camp','What is \'Dude\'?','answerC2-400','c2-400',false)">400</a></td>
+					<td align="center"><a href=#test id="c3-400" onclick="removeLetters(), checkDailyDouble('This city is the capital of Vermont','What is Montpelier?','answerC3-400','c3-400',false)">400</a></td>
+					<td align="center"><a href=#test id="c4-400" onclick="removeLetters(), checkDailyDouble('The former \'The Office\' actor turned director who made the new thriller, \'The Quiet Place\'','Who is John Krasinski?','answerC4-400','c4-400',false)">400</a></td>
+					<td align="center"><a href=#test id="c5-400" onclick="removeLetters(), checkDailyDouble('Finish this company\'s slogan: \'Save big money at...\'','What is Menards?','answerC5-400','c5-400',false)">400</a></td>
+				</tr>
+				<tr>
+					<td align="center"><a href=#test id="c1-500" onclick="removeLetters(), checkDailyDouble('The term for when you hit 3 shots under par in golf','What is an albatross?','answerC1-500','c1-500',false)">500</a></td>
+					<td align="center"><a href=#test id="c2-500" onclick="removeLetters(), checkDailyDouble('This phrase is on the back of the camp shirt this year','What is \'Hang Ten\'?','answerC2-500','c2-500',false)">500</a></td>
+					<td align="center"><a href=#test id="c3-500" onclick="removeLetters(), checkDailyDouble('This state holds the most lakes in the US','What is Wisconsin?','answerC3-500','c3-500',true)">500</a></td>
+					<td align="center"><a href=#test id="c4-500" onclick="removeLetters(), checkDailyDouble('This actor has played in the most movies, 276.','Who is Christopher Lee?','answerC4-500','c4-500',false)">500</a></td>
+					<td align="center"><a href=#test id="c5-500" onclick="removeLetters(), checkDailyDouble('\'We\'re going places\'','What is Toyota?','answerC5-500','c5-500',false)">500</a></td>
+				</tr>
+			</table>
+		</div>
+	</body>
+
+</html>

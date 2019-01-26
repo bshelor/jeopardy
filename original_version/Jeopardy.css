@@ -1,0 +1,87 @@
+html *{
+	font-family: 'Lato', sans-serif;
+	
+}
+
+body {
+	background-color: gray;
+}
+
+table, th, td, tr {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+th {
+	background-color: lightgray;
+	padding: 15px;
+	font-family: 'Lato', sans-serif;
+	font-size: 200%;
+}
+/*td, tr {
+	background-color: lightblue;
+	height: 25%;
+}*/
+a:link {
+	display: block;
+	padding: 15px;
+	text-decoration: none;
+	color: black;
+	background-color: #dd5858;
+	font-family: 'Lato', sans-serif;
+	font-size: 250%;
+}
+a:hover {
+	padding: 15px;
+	display: block;
+	color: white;
+	text-decoration: none;
+	background-color: #e22222;
+	font-family: 'Lato', sans-serif;
+}
+
+.buttons {
+	padding: 15px;
+	display: block;
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #dd5858;
+	width: 25%;
+	border-radius: 5px;
+	font-family: 'Lato', sans-serif;
+}
+
+.buttons:hover {
+	background-color: darkgray;
+	font-family: 'Lato', sans-serif;
+}
+
+.questions {
+	display: none;
+	font-family: 'Lato', sans-serif;
+}
+
+.text {
+	display: block;
+	background-color: #8091fc;
+	padding: 10px;
+	border-radius: 20px;
+	font-size: 400%;
+	margin: center;
+	text-align: center;
+	font-family: 'Lato', sans-serif;
+}
+
+.clickedBox {
+	background-color: black;
+	color: white;
+	display: block;
+	padding: 15px;
+	margin: 0px;
+	font-family: 'Lato', sans-serif;
+	font-size: 250%;
+}
