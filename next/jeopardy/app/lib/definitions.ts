@@ -3,4 +3,5 @@ export type Question = {
   Question: string;
   Category: string;
   Answer: string;
+  Disabled?: boolean;
 };
