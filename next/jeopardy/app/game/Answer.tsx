@@ -3,7 +3,7 @@ import TopLeftContent from './TopLeftContent';
 import GoBackButton from './GoBackButton';
 import DailyDouble from '../components/DailyDouble';
 
-export default function AnswerCell({ data, clearCellClick, row, index, disableCell }) {
+export default function AnswerCell({ data, clearCellClick, row, index, disableCell }: Record<any, any>) {
   const [visibleText, setVisibleText] = useState(data.Answer);
 
   const flipQuestionAndAnswer = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const FullPageFlash = ({ children }) => {
+const FullPageFlash = ({ children }: Record<any, any>) => {
   const [showFlash, setShowFlash] = useState(true);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import LeftArrowIcon from '@lib/customIcons/LeftArrow';
 
-export default function GoBackButton({ handleButtonClick }) {
+export default function GoBackButton({ handleButtonClick }: Record<any, any>) {
   return (
     <div className="py-2">
       <button

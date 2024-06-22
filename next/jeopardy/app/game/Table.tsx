@@ -3,7 +3,7 @@ import ResetGameButton from './ResetGameButton';
 import EndGameButton from './EndGameButton';
 import TopLeftContent from "./TopLeftContent";
 
-export default function Table({ headers, gameBoard, handleCellClick, resetGame, endGame }) {
+export default function Table({ headers, gameBoard, handleCellClick, resetGame, endGame }: Record<any, any>) {
   return (
     <div className="relative min-h-screen bg-gray-100">
       <TopLeftContent>
@@ -28,7 +28,7 @@ export default function Table({ headers, gameBoard, handleCellClick, resetGame, 
               {Object.keys(gameBoard).map((row, index) => (
                 <tr key={index} className="bg-white border border-gray-300">
                   {Object.values(gameBoard[row as keyof typeof gameBoard]).map((question, i) => (
-                    <TableCell index={i} cellData={question} onCellClick={handleCellClick} row={row}></TableCell>
+                    <TableCell key={i} index={i} cellData={question} onCellClick={handleCellClick} row={row}></TableCell>
                   ))}
                 </tr>
               ))}

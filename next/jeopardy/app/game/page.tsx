@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Question } from '@lib/definitions';
 import { useState } from 'react';
 import TableCell from './TableCell'
-import { getGameData, questions } from '@lib/data';
+// import { getGameData, questions } from '@lib/data';
 import Table from './Table';
 import type { GetServerSideProps } from "next";
 import FileUploader from './FileUploader';
@@ -24,22 +24,22 @@ const isFalse = (s: string) => {
 }
 
 export default function Game() {
-  const sortedLowToHigh = questions.sort((a, b) => { if (a.Points < b.Points) return -1; else { return 1; } });
+  // const sortedLowToHigh = questions.sort((a, b) => { if (a.Points < b.Points) return -1; else { return 1; } });
 
-  const startingBoard = {
-    row1: sortedLowToHigh.filter((q: Question) => q.Points === 100),
-    row2: sortedLowToHigh.filter((q: Question) => q.Points === 200),
-    row3: sortedLowToHigh.filter((q: Question) => q.Points === 300),
-    row4: sortedLowToHigh.filter((q: Question) => q.Points === 400),
-    row5: sortedLowToHigh.filter((q: Question) => q.Points === 500)
-  };
+  // const startingBoard = {
+  //   row1: sortedLowToHigh.filter((q: Question) => q.Points === 100),
+  //   row2: sortedLowToHigh.filter((q: Question) => q.Points === 200),
+  //   row3: sortedLowToHigh.filter((q: Question) => q.Points === 300),
+  //   row4: sortedLowToHigh.filter((q: Question) => q.Points === 400),
+  //   row5: sortedLowToHigh.filter((q: Question) => q.Points === 500)
+  // };
 
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedRow, setSelectedRow] = useState<string | undefined>(undefined);
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>(undefined);
 
   const [csvData, setCsvData] = useState<string[][] | null>(null);
-  const [gameBoard, setGameBoard] = useState<Record<string, Question[]>>(startingBoard);
+  const [gameBoard, setGameBoard] = useState<Record<string, Question[]>>({});
   const [categories, setCategories] = useState<string[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
 

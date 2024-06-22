@@ -3,7 +3,7 @@ export default function TableCell({
   cellData,
   onCellClick,
   row,
-}) {
+}: Record<any, any>) {
   const isDisabled = cellData.Disabled ? cellData.Disabled : false;
   const cellStyling = `border border-gray-300 cursor-pointer ${isDisabled ? 'bg-black' : 'hover:bg-blue-100'}`;
   const buttonStyling = `py-14 px-8 w-full h-full text-center text-6xl ${isDisabled ? 'text-gray-400' : ''}`;

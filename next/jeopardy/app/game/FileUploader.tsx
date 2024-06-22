@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import Papa from 'papaparse';
 
-export default function FileUploader({ setCsvData, gameStart }) {
+export default function FileUploader({ setCsvData, gameStart }: Record<any, any>) {
   const handleFileUpload = (event: any) => {
     console.log("🚀 ~ handleFileUpload ~ event:", event)
     const file = event.target.files[0];

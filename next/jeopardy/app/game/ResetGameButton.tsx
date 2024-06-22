@@ -1,6 +1,6 @@
 import RefreshIcon from "@lib/customIcons/RefreshIcon"
 
-export default function ResetGameButton({ handleButtonClick }) {
+export default function ResetGameButton({ handleButtonClick }: Record<any, any>) {
   return (
     <div className="py-2">
       <button

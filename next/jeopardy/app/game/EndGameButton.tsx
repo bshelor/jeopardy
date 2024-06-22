@@ -1,6 +1,6 @@
 import ExitIcon from '@lib/customIcons/ExitIcon';
 
-export default function EndGameButton({ handleButtonClick }) {
+export default function EndGameButton({ handleButtonClick }: Record<any, any>) {
   return (
     <div className="py-2">
       <button
