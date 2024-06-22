@@ -4,4 +4,5 @@ export type Question = {
   Category: string;
   Answer: string;
   Disabled?: boolean;
+  DailyDouble?: boolean;
 };

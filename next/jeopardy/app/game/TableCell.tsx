@@ -5,8 +5,8 @@ export default function TableCell({
   row,
 }) {
   const isDisabled = cellData.Disabled ? cellData.Disabled : false;
-  const cellStyling = `py-14 px-8 border border-gray-300 cursor-pointer ${isDisabled ? 'bg-black' : 'hover:bg-blue-100'}`;
-  const buttonStyling = `w-full h-full text-center text-6xl ${isDisabled ? 'text-gray-400' : ''}`;
+  const cellStyling = `border border-gray-300 cursor-pointer ${isDisabled ? 'bg-black' : 'hover:bg-blue-100'}`;
+  const buttonStyling = `py-14 px-8 w-full h-full text-center text-6xl ${isDisabled ? 'text-gray-400' : ''}`;
   return (
     <td
       key={index}

@@ -9,7 +9,8 @@ export default function GoBackButton({ handleButtonClick }) {
           flex
           items-center
           px-2 
-          py-2 
+          py-2
+          pr-4 
           bg-blue-500 
           text-white 
           font-semibold 

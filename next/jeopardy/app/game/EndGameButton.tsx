@@ -10,6 +10,7 @@ export default function EndGameButton({ handleButtonClick }) {
           items-center
           px-2 
           py-2 
+          pr-4
           bg-blue-500 
           text-white 
           font-semibold 

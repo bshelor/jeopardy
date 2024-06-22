@@ -1,0 +1,31 @@
+Answer,Question,Points,Category,Disabled,DailyDouble
+This is an answer,This is a question?,500,Medieval,FALSE,FALSE
+This is an answer,This is a question?,500,LTBC,FALSE,FALSE
+This is an answer,This is a question?,500,Bible,FALSE,FALSE
+This is an answer,This is a question?,500,Pop Culture,FALSE,FALSE
+This is an answer,This is a question?,500,Food,FALSE,FALSE
+This is an answer,This is a question?,500,Animals,FALSE,FALSE
+This is an answer,This is a question?,400,Medieval,FALSE,FALSE
+This is an answer,This is a question?,400,LTBC,FALSE,FALSE
+This is an answer,This is a question?,400,Bible,FALSE,TRUE
+This is an answer,This is a question?,400,Pop Culture,FALSE,FALSE
+This is an answer,This is a question?,400,Food,FALSE,FALSE
+This is an answer,This is a question?,400,Animals,FALSE,FALSE
+This is an answer,This is a question?,300,Medieval,FALSE,TRUE
+This is an answer,This is a question?,300,LTBC,FALSE,FALSE
+This is an answer,This is a question?,300,Bible,FALSE,FALSE
+This is an answer,This is a question?,300,Pop Culture,FALSE,FALSE
+This is an answer,This is a question?,300,Food,FALSE,FALSE
+This is an answer,This is a question?,300,Animals,FALSE,FALSE
+This is an answer,This is a question?,200,Medieval,FALSE,FALSE
+This is an answer,This is a question?,200,LTBC,FALSE,FALSE
+This is an answer,This is a question?,200,Bible,FALSE,FALSE
+This is an answer,This is a question?,200,Pop Culture,FALSE,FALSE
+This is an answer,This is a question?,200,Food,FALSE,FALSE
+This is an answer,This is a question?,200,Animals,FALSE,TRUE
+This is an answer,This is a question?,100,Medieval,FALSE,FALSE
+This is an answer,This is a question?,100,LTBC,FALSE,FALSE
+This is an answer,This is a question?,100,Bible,FALSE,FALSE
+This is an answer,This is a question?,100,Pop Culture,FALSE,FALSE
+This is an answer,This is a question?,100,Food,FALSE,FALSE
+This is an answer,This is a question?,100,Animals,FALSE,FALSE

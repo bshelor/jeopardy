@@ -54,7 +54,7 @@ export default function Game() {
 
         if (header === 'Points') {
           questionObj[header] = parseInt(row[i]);
-        } else if (header === 'Disabled') {
+        } else if (header === 'Disabled' || header === 'DailyDouble') {
           questionObj[header] = !isFalse(row[i]);
         } else {
           questionObj[header] = row[i];

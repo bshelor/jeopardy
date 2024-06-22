@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TopLeftContent from './TopLeftContent';
-import LeftArrowIcon from '@lib/customIcons/LeftArrow';
 import GoBackButton from './GoBackButton';
+import DailyDouble from '../components/DailyDouble';
 
 export default function AnswerCell({ data, clearCellClick, row, index, disableCell }) {
   const [visibleText, setVisibleText] = useState(data.Answer);
@@ -16,17 +16,28 @@ export default function AnswerCell({ data, clearCellClick, row, index, disableCe
     }
   };
 
+  const dailyDoubleStyling = `${data.DailyDouble ? 'border-4 border-yellow-400 ' : 'border border-gray-400 '}`;
+  const textBoxStyling =
+    `p-12 bg-gray-200 ${dailyDoubleStyling} rounded mt-4 text-center`;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+
+      {data.DailyDouble && <DailyDouble></DailyDouble>}
+
       <TopLeftContent>
         <GoBackButton handleButtonClick={clearCellClick}></GoBackButton>
       </TopLeftContent>
       
       <div className="flex items-center justify-center bg-gray-100">
         <div className="overflow-x-auto max-w-full mx-8">
-          <div className="p-12 bg-gray-200 border border-gray-400 rounded mt-4 text-center">
+
+          {data.DailyDouble && <div className="text-xl text-yellow-400 text-center font-bold"><p>Daily Double</p></div>}
+          
+          <div className={textBoxStyling}>
             <p className="text-6xl leading-relaxed tracking-wide font-semibold">{visibleText}</p>
           </div>
+
           <div className="p-4 rounded mt-4 text-center">
             {visibleText === data.Question && (
               <button
