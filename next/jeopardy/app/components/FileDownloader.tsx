@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function FileDownloader() {
   return (
     <div className="p-4">
-      <Link href="/downloads/game_data.csv" passHref legacyBehavior>
+      <Link href="/downloads/game_data_template.csv" passHref legacyBehavior>
           <a
           className="
             flex 

@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
 import TopLeftContent from './TopLeftContent';
 import GoBackButton from './GoBackButton';
-import DailyDouble from '../components/DailyDouble';
+import DailyDouble from './DailyDouble';
+import CountdownTimer from './CountdownTimer';
 
 export default function AnswerCell({ data, clearCellClick, row, index, disableCell }: Record<any, any>) {
   const [visibleText, setVisibleText] = useState(data.Answer);
@@ -28,6 +30,8 @@ export default function AnswerCell({ data, clearCellClick, row, index, disableCe
       <TopLeftContent>
         <GoBackButton handleButtonClick={clearCellClick}></GoBackButton>
       </TopLeftContent>
+
+      <CountdownTimer targetDate={new Date(new Date().getTime() + 60 * 1000)}></CountdownTimer>
       
       <div className="flex items-center justify-center bg-gray-100">
         <div className="overflow-x-auto max-w-full mx-8">

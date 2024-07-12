@@ -1,16 +1,12 @@
 'use client'
 
-import Image from 'next/image';
 import { Question } from '@lib/definitions';
 import { useState } from 'react';
-import TableCell from './TableCell'
-// import { getGameData, questions } from '@lib/data';
-import Table from './Table';
-import type { GetServerSideProps } from "next";
-import FileUploader from './FileUploader';
-import FileDownloader from './FileDownloader';
+import Table from '../components/Table';
+import FileUploader from '../components/FileUploader';
+import FileDownloader from '../components/FileDownloader';
 import { useEffect } from 'react';
-import AnswerCell from './Answer';
+import AnswerCell from '../components/Answer';
 
 const isFalse = (s: string) => {
   switch (s) {
@@ -24,16 +20,6 @@ const isFalse = (s: string) => {
 }
 
 export default function Game() {
-  // const sortedLowToHigh = questions.sort((a, b) => { if (a.Points < b.Points) return -1; else { return 1; } });
-
-  // const startingBoard = {
-  //   row1: sortedLowToHigh.filter((q: Question) => q.Points === 100),
-  //   row2: sortedLowToHigh.filter((q: Question) => q.Points === 200),
-  //   row3: sortedLowToHigh.filter((q: Question) => q.Points === 300),
-  //   row4: sortedLowToHigh.filter((q: Question) => q.Points === 400),
-  //   row5: sortedLowToHigh.filter((q: Question) => q.Points === 500)
-  // };
-
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedRow, setSelectedRow] = useState<string | undefined>(undefined);
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>(undefined);
@@ -41,7 +27,7 @@ export default function Game() {
   const [csvData, setCsvData] = useState<string[][] | null>(null);
   const [gameBoard, setGameBoard] = useState<Record<string, Question[]>>({});
   const [categories, setCategories] = useState<string[]>([]);
-  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [boardReady, setBoardReady] = useState<boolean>(false);
 
   useEffect(() => {
     const headers = csvData ? csvData[0].filter((d: string) => d.trim().length) : [];
@@ -123,12 +109,12 @@ export default function Game() {
   };
 
   const handleGameEnd = () => {
-    setGameStarted(false);
+    setBoardReady(false);
   }
 
   return (
     <div>
-      {gameStarted && (
+      {boardReady && (
         <div>
           {selectedCell && (
             <AnswerCell
@@ -151,13 +137,13 @@ export default function Game() {
         </div>
       )}
       
-      {!gameStarted && (
+      {!boardReady && (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
           <div>
             <p className="mb-4 text-2xl">Upload a CSV of game data to begin playing!</p>
           </div>
           <div className="flex items-center space-x-4">
-            <FileUploader setCsvData={setCsvData} gameStart={setGameStarted}></FileUploader>
+            <FileUploader setCsvData={setCsvData} gameStart={setBoardReady}></FileUploader>
             <FileDownloader></FileDownloader>
           </div>
         </div>
