@@ -6,3 +6,16 @@ export type Question = {
   Disabled?: boolean;
   DailyDouble?: boolean;
 };
+
+export type Team = {
+  id: string;
+  name: string;
+  score: number;
+};
+
+export type CellPoints = {
+  rowId: string;
+  cellIndex: number;
+  points: number;
+  teamId: string;
+};

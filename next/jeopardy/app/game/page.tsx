@@ -1,11 +1,10 @@
 'use client'
 
-import { Question } from '@lib/definitions';
-import { useState } from 'react';
+import { Question, Team, CellPoints } from '../lib/definitions';
+import { useState, useEffect } from 'react';
 import Table from '../components/Table';
 import FileUploader from '../components/FileUploader';
 import FileDownloader from '../components/FileDownloader';
-import { useEffect } from 'react';
 import AnswerCell from '../components/Answer';
 
 const isFalse = (s: string) => {
@@ -28,6 +27,11 @@ export default function Game() {
   const [gameBoard, setGameBoard] = useState<Record<string, Question[]>>({});
   const [categories, setCategories] = useState<string[]>([]);
   const [boardReady, setBoardReady] = useState<boolean>(false);
+  
+  // Add team state
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
+  const [cellPointsMap, setCellPointsMap] = useState<CellPoints[]>([]); // Track which team received points for each cell
 
   useEffect(() => {
     const headers = csvData ? csvData[0].filter((d: string) => d.trim().length) : [];
@@ -105,15 +109,116 @@ export default function Game() {
     }, {});
 
     setGameBoard(newGameBoard);
+    setCellPointsMap([]);
+    for (const team of teams) { // Reset team scores to 0
+      team.score = 0;
+    }
     return newGameBoard;
   };
 
   const handleGameEnd = () => {
     setBoardReady(false);
+    setCellPointsMap([]);
+    setTeams([]); // Clear teams
   }
 
+  /**
+   * Add a new team to the game
+   * @param name - Name of the team to add
+   */
+  const addTeam = (name: string) => {
+    if (name.trim() === '') return;
+    
+    const newTeam: Team = {
+      id: Date.now().toString(),
+      name: name.trim(),
+      score: 0
+    };
+    
+    setTeams([...teams, newTeam]);
+  };
+
+  /**
+   * Update a team's score
+   * @param teamId - ID of the team to update
+   * @param points - Points to add to the team's score
+   * @param row - Row of the cell
+   * @param cellIndex - Index of the cell
+   */
+  const updateTeamScore = (teamId: string, points: number, row?: string, cellIndex?: number) => {
+    setTeams(teams.map(team => {
+      if (team.id === teamId) {
+        return { ...team, score: team.score + points };
+      }
+      return team;
+    }));
+
+    // If row and cellIndex are provided, track which team received points for this cell
+    if (row !== undefined && cellIndex !== undefined) {
+      setCellPointsMap([
+        ...cellPointsMap,
+        { rowId: row, cellIndex, points, teamId }
+      ]);
+    }
+  };
+
+  /**
+   * Update a team's name
+   * @param teamId - ID of the team to update
+   * @param newName - New name for the team
+   */
+  const updateTeamName = (teamId: string, newName: string) => {
+    if (newName.trim() === '') return;
+    
+    setTeams(teams.map(team => {
+      if (team.id === teamId) {
+        return { ...team, name: newName.trim() };
+      }
+      return team;
+    }));
+  };
+
+  /**
+   * Reassign points from one team to another
+   * @param row - Row of the cell
+   * @param cellIndex - Index of the cell
+   * @param toTeamId - ID of the team to give points to
+   */
+  const reassignPoints = (row: string, cellIndex: number, toTeamId: string) => {
+    // Find the cell points record
+    const cellPointsRecord = cellPointsMap.find(
+      record => record.rowId === row && record.cellIndex === cellIndex
+    );
+
+    if (!cellPointsRecord) return;
+
+    const { teamId: fromTeamId, points } = cellPointsRecord;
+    
+    // If reassigning to the same team, do nothing
+    if (fromTeamId === toTeamId) return;
+
+    // Update teams' scores
+    setTeams(teams.map(team => {
+      if (team.id === fromTeamId) {
+        return { ...team, score: team.score - points };
+      }
+      if (team.id === toTeamId) {
+        return { ...team, score: team.score + points };
+      }
+      return team;
+    }));
+
+    // Update cell points map
+    setCellPointsMap(cellPointsMap.map(record => {
+      if (record.rowId === row && record.cellIndex === cellIndex) {
+        return { ...record, teamId: toTeamId };
+      }
+      return record;
+    }));
+  };
+
   return (
-    <div className="bg-gray-400 dark:bg-gray-400">
+    <div className="bg-gray-400 dark:bg-gray-400 min-h-screen">
       {boardReady && (
         <div>
           {selectedCell && (
@@ -123,6 +228,8 @@ export default function Game() {
               row={selectedRow}
               index={selectedIndex}
               disableCell={disableCell}
+              teams={teams}
+              updateTeamScore={updateTeamScore}
             />
           )}
           {!selectedCell && (
@@ -132,6 +239,13 @@ export default function Game() {
               handleCellClick={handleCellClick}
               resetGame={resetGame}
               endGame={handleGameEnd}
+              teams={teams}
+              addTeam={addTeam}
+              showTeamModal={showTeamModal}
+              setShowTeamModal={setShowTeamModal}
+              updateTeamName={updateTeamName}
+              reassignPoints={reassignPoints}
+              cellPointsMap={cellPointsMap}
             />
           )}
         </div>

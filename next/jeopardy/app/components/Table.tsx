@@ -2,8 +2,23 @@ import TableCell from "./TableCell";
 import ResetGameButton from './ResetGameButton';
 import EndGameButton from './EndGameButton';
 import TopLeftContent from "./TopLeftContent";
+import TeamScoreboard from "./TeamScoreboard";
+import { Team } from '../lib/definitions';
 
-export default function Table({ headers, gameBoard, handleCellClick, resetGame, endGame }: Record<any, any>) {
+export default function Table({ 
+  headers, 
+  gameBoard, 
+  handleCellClick, 
+  resetGame, 
+  endGame,
+  teams,
+  addTeam,
+  showTeamModal,
+  setShowTeamModal,
+  updateTeamName,
+  reassignPoints,
+  cellPointsMap = []
+}: Record<any, any>) {
   return (
     <div className="relative min-h-screen">
       <TopLeftContent>
@@ -11,7 +26,16 @@ export default function Table({ headers, gameBoard, handleCellClick, resetGame, 
         <ResetGameButton handleButtonClick={resetGame}></ResetGameButton>
       </TopLeftContent>
 
-      <div className="flex items-center justify-center pt-2 pl-24">
+      {/* Team Scoreboard */}
+      <TeamScoreboard 
+        teams={teams}
+        addTeam={addTeam}
+        showTeamModal={showTeamModal}
+        setShowTeamModal={setShowTeamModal}
+        updateTeamName={updateTeamName}
+      />
+
+      <div className="flex items-center justify-center pt-4 pl-20 ml-32">
         <div className="overflow-x-auto max-w-full">
           <table className="table-auto border border-gray-200">
             <thead className="w-full bg-blue-500 text-white">
@@ -28,7 +52,16 @@ export default function Table({ headers, gameBoard, handleCellClick, resetGame, 
               {Object.keys(gameBoard).map((row, index) => (
                 <tr key={index} className="border border-gray-300 bg-gray-200 dark:bg-gray-200">
                   {Object.values(gameBoard[row as keyof typeof gameBoard]).map((question, i) => (
-                    <TableCell key={i} index={i} cellData={question} onCellClick={handleCellClick} row={row}></TableCell>
+                    <TableCell 
+                      key={i} 
+                      index={i} 
+                      cellData={question} 
+                      onCellClick={handleCellClick} 
+                      row={row}
+                      teams={teams}
+                      reassignPoints={reassignPoints}
+                      cellPointsMap={cellPointsMap}
+                    ></TableCell>
                   ))}
                 </tr>
               ))}
