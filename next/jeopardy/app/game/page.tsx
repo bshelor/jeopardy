@@ -113,7 +113,7 @@ export default function Game() {
   }
 
   return (
-    <div>
+    <div className="bg-gray-400 dark:bg-gray-400">
       {boardReady && (
         <div>
           {selectedCell && (
@@ -138,7 +138,7 @@ export default function Game() {
       )}
       
       {!boardReady && (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-400 dark:bg-gray-400">
           <div>
             <p className="mb-4 text-2xl">Upload a CSV of game data to begin playing!</p>
           </div>

@@ -1,10 +1,11 @@
-export default function Button({ handleButtonClick, icon, buttonText }: Record<any, any>) {
+export default function Button({ handleButtonClick, icon: IconComponent, buttonText }: Record<any, any>) {
   return (
     <button
       onClick={handleButtonClick}
       className="
         flex
         items-center
+        min-w-[120px]
         px-4 
         py-2 
         bg-blue-500 
@@ -19,10 +20,11 @@ export default function Button({ handleButtonClick, icon, buttonText }: Record<a
         focus:ring-opacity-75 
         transition 
         duration-300
+        whitespace-nowrap
       "
     >
-      {icon && (icon)}
-      {buttonText}
+      {IconComponent && <IconComponent className="w-5 h-5 flex-shrink-0 mr-2"/>}
+      <span>{buttonText}</span>
     </button>
   );
 }

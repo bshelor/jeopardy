@@ -5,15 +5,15 @@ import TopLeftContent from "./TopLeftContent";
 
 export default function Table({ headers, gameBoard, handleCellClick, resetGame, endGame }: Record<any, any>) {
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <div className="relative min-h-screen">
       <TopLeftContent>
         <EndGameButton handleButtonClick={endGame}></EndGameButton>
         <ResetGameButton handleButtonClick={resetGame}></ResetGameButton>
       </TopLeftContent>
 
-      <div className="flex items-center justify-center bg-gray-100">
+      <div className="flex items-center justify-center pt-2 pl-24">
         <div className="overflow-x-auto max-w-full">
-          <table className="table-auto bg-white border border-gray-200">
+          <table className="table-auto border border-gray-200">
             <thead className="w-full bg-blue-500 text-white">
               <tr>
                 {
@@ -26,7 +26,7 @@ export default function Table({ headers, gameBoard, handleCellClick, resetGame, 
 
             <tbody>
               {Object.keys(gameBoard).map((row, index) => (
-                <tr key={index} className="bg-white border border-gray-300">
+                <tr key={index} className="border border-gray-300 bg-gray-200 dark:bg-gray-200">
                   {Object.values(gameBoard[row as keyof typeof gameBoard]).map((question, i) => (
                     <TableCell key={i} index={i} cellData={question} onCellClick={handleCellClick} row={row}></TableCell>
                   ))}

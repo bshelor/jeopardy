@@ -1,6 +1,6 @@
 export default function TopLeftContent({ children }: Record<any, any>) {
   return (
-    <div className="absolute top-0 left-0 p-2">
+    <div className="absolute top-1 left-1 p-2 z-10">
       {children}
     </div>
   );
