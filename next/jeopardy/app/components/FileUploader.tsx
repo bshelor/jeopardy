@@ -4,7 +4,6 @@ import Papa from 'papaparse';
 
 export default function FileUploader({ setCsvData, gameStart }: Record<any, any>) {
   const handleFileUpload = (event: any) => {
-    console.log("🚀 ~ handleFileUpload ~ event:", event)
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -68,7 +67,7 @@ export default function FileUploader({ setCsvData, gameStart }: Record<any, any>
         "
       >
         <ArrowUpTrayIcon className="w-5 h-5 mr-2" />
-        Import Game Data
+        Import Game Config
       </button>
     </div>
   )

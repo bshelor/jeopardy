@@ -7,6 +7,7 @@ import FileUploader from '../components/FileUploader';
 import FileDownloader from '../components/FileDownloader';
 import AnswerCell from '../components/Answer';
 import TimerSettings from '../components/TimerSettings';
+import LoadGameButton from '../components/LoadGameButton';
 
 const isFalse = (s: string) => {
   switch (s) {
@@ -79,6 +80,10 @@ export default function Game() {
 
     setGameBoard(newGameBoard);
   }, [csvData]);
+
+  useEffect(() => {
+    console.log("🚀 ~ Game ~ gameBoard:", gameBoard)
+  }, [gameBoard]);
 
   const handleCellClick = (content: any, row: string, index: number) => {
     setSelectedRow(row);
@@ -242,6 +247,47 @@ export default function Game() {
     }));
   };
 
+  /**
+   * Load a saved game
+   * @param gameData - The saved game data
+   */
+  const loadGame = (gameData: any) => {
+    if (!gameData) return;
+    
+    try {
+      // Load categories and game board
+      if (gameData.headers) setCategories(gameData.headers);
+      console.log("🚀 ~ loadGame ~ gameData.gameBoard:", gameData.gameBoard)
+      if (gameData.gameBoard) {
+        setGameBoard(JSON.parse(JSON.stringify(gameData.gameBoard)));
+      }
+      
+      // Load teams
+      if (gameData.teams) {
+        setTeams(JSON.parse(JSON.stringify(gameData.teams)));
+      }
+      
+      // Load cell points map
+      if (gameData.cellPointsMap) {
+        setCellPointsMap(JSON.parse(JSON.stringify(gameData.cellPointsMap)));
+      }
+      
+      // Load timer settings
+      if (gameData.timerSeconds) setTimerSeconds(gameData.timerSeconds);
+      
+      // Load CSV data
+      if (gameData.csvData) setCsvData(gameData.csvData);
+      
+      // Start the game
+      setBoardReady(true);
+      
+      console.log('Game loaded successfully');
+    } catch (err) {
+      console.error('Error loading game:', err);
+      alert('Error loading game. The save file may be corrupted or incompatible.');
+    }
+  };
+
   return (
     <div className="bg-gray-400 dark:bg-gray-400 min-h-screen">
       {boardReady && (
@@ -276,6 +322,7 @@ export default function Game() {
               setTimerSeconds={setTimerSeconds}
               showTimerSettings={showTimerSettings}
               setShowTimerSettings={setShowTimerSettings}
+              csvData={csvData}
             />
           )}
         </div>
@@ -284,11 +331,17 @@ export default function Game() {
       {!boardReady && (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-400 dark:bg-gray-400">
           <div>
-            <p className="mb-4 text-2xl">Upload a CSV of game data to begin playing!</p>
+            <p className="mb-4 text-2xl">Upload a game configuration to begin playing!</p>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mb-6">
             <FileUploader setCsvData={setCsvData} gameStart={setBoardReady}></FileUploader>
             <FileDownloader></FileDownloader>
+          </div>
+          <div className="mt-4">
+            <p className="mb-2 text-xl">Or load a previously saved game:</p>
+            <div className="flex justify-center">
+              <LoadGameButton handleFileLoad={loadGame} />
+            </div>
           </div>
         </div>
       )}

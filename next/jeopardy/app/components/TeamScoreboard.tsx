@@ -59,7 +59,7 @@ export default function TeamScoreboard({
   };
 
   return (
-    <div className={`absolute left-2 z-10 transition-all duration-300 ${timerSettingsOpen ? 'top-[320px]' : 'top-[220px]'}`}>
+    <div className={`absolute left-2 z-10 transition-all duration-300 ${timerSettingsOpen ? 'top-[360px]' : 'top-[260px]'}`}>
       <div className={`bg-white bg-opacity-95 p-4 rounded-lg shadow-md border border-gray-200 transition-all duration-300 ${showTeamModal ? 'w-[350px]' : 'w-[215px]'}`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-lg font-bold text-black pr-4">Scoreboard</h3>

@@ -38,7 +38,7 @@ export default function TimerSettings({
   };
 
   return (
-    <div className="absolute top-32 left-2 z-10">
+    <div className="absolute top-44 left-2 z-10">
       <div id="timer-settings" className={`bg-white bg-opacity-95 p-4 rounded-lg shadow-md border border-gray-200 transition-all duration-300 w-[215px]`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-lg font-bold text-black pr-4">Timer Settings</h3>

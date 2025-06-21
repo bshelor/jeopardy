@@ -4,6 +4,7 @@ import EndGameButton from './EndGameButton';
 import TopLeftContent from "./TopLeftContent";
 import TeamScoreboard from "./TeamScoreboard";
 import TimerSettings from "./TimerSettings";
+import SaveGameButton from "./SaveGameButton";
 import { Team } from '../lib/definitions';
 
 export default function Table({ 
@@ -22,11 +23,33 @@ export default function Table({
   timerSeconds,
   setTimerSeconds,
   showTimerSettings,
-  setShowTimerSettings
+  setShowTimerSettings,
+  csvData
 }: Record<any, any>) {
+  
+  // Prepare the game data for saving
+  const gameDataForSave = {
+    headers,
+    gameBoard,
+    teams,
+    cellPointsMap,
+    timerSeconds,
+    csvData
+  };
+  
+  // Handle save game success (optional)
+  const handleSaveGame = () => {
+    // You could show a notification or something here if you want
+    console.log('Game saved successfully');
+  };
+  
   return (
     <div className="relative min-h-screen">
       <TopLeftContent>
+        <SaveGameButton 
+          handleButtonClick={handleSaveGame} 
+          gameData={gameDataForSave}
+        />
         <EndGameButton handleButtonClick={endGame}></EndGameButton>
         <ResetGameButton handleButtonClick={resetGame}></ResetGameButton>
       </TopLeftContent>
