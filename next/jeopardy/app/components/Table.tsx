@@ -3,6 +3,7 @@ import ResetGameButton from './ResetGameButton';
 import EndGameButton from './EndGameButton';
 import TopLeftContent from "./TopLeftContent";
 import TeamScoreboard from "./TeamScoreboard";
+import TimerSettings from "./TimerSettings";
 import { Team } from '../lib/definitions';
 
 export default function Table({ 
@@ -17,7 +18,11 @@ export default function Table({
   setShowTeamModal,
   updateTeamName,
   reassignPoints,
-  cellPointsMap = []
+  cellPointsMap = [],
+  timerSeconds,
+  setTimerSeconds,
+  showTimerSettings,
+  setShowTimerSettings
 }: Record<any, any>) {
   return (
     <div className="relative min-h-screen">
@@ -26,14 +31,25 @@ export default function Table({
         <ResetGameButton handleButtonClick={resetGame}></ResetGameButton>
       </TopLeftContent>
 
-      {/* Team Scoreboard */}
-      <TeamScoreboard 
-        teams={teams}
-        addTeam={addTeam}
-        showTeamModal={showTeamModal}
-        setShowTeamModal={setShowTeamModal}
-        updateTeamName={updateTeamName}
-      />
+      {/* Timer Settings */}
+      <div className="settings-container relative">
+        <TimerSettings
+          timerSeconds={timerSeconds}
+          setTimerSeconds={setTimerSeconds}
+          showTimerSettings={showTimerSettings}
+          setShowTimerSettings={setShowTimerSettings}
+        />
+
+        {/* Team Scoreboard */}
+        <TeamScoreboard 
+          teams={teams}
+          addTeam={addTeam}
+          showTeamModal={showTeamModal}
+          setShowTeamModal={setShowTeamModal}
+          updateTeamName={updateTeamName}
+          timerSettingsOpen={showTimerSettings}
+        />
+      </div>
 
       <div className="flex items-center justify-center pt-4 pl-20 ml-32">
         <div className="overflow-x-auto max-w-full">

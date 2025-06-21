@@ -1,44 +1,71 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-const CountdownTimer = ({ targetDate }) => {
-  const calculateTimeLeft = () => {
-    const difference = +new Date(targetDate) - +new Date();
-    let secondsLeft = null;
+interface CountdownTimerProps {
+  initialSeconds: number;
+  onTimeUp?: () => void;
+}
 
-    if (difference > 0) {
-      secondsLeft = Math.floor((difference / 1000) % 60)
-      // timeLeft = {
-      //   days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      //   hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      //   minutes: Math.floor((difference / 1000 / 60) % 60),
-      //   seconds: Math.floor((difference / 1000) % 60),
-      // };
-    }
+const CountdownTimer = ({ initialSeconds, onTimeUp }: CountdownTimerProps) => {
+  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+  const [isActive, setIsActive] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    return secondsLeft;
+  const resetTimer = (seconds: number = 15) => {
+    setSecondsLeft(seconds);
+    setIsActive(true);
   };
 
-  const [secondsLeft, setSecondsLeft] = useState(calculateTimeLeft());
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setSecondsLeft(calculateTimeLeft());
-    }, 1000);
+    if (isActive) {
+      timerRef.current = setInterval(() => {
+        setSecondsLeft(prev => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current as NodeJS.Timeout);
+            setIsActive(false);
+            onTimeUp && onTimeUp();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
 
-    return () => clearTimeout(timer);
-  });
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [isActive, onTimeUp]);
+
+  // Timer color changes based on time left
+  const getTimerColor = () => {
+    if (secondsLeft > 10) return 'bg-green-600';
+    if (secondsLeft > 5) return 'bg-yellow-500';
+    return 'bg-red-600';
+  };
 
   return (
-    // "fixed top-0 right-0"
-    <div className="m-8 p-2 rounded flex fixed top-0 right-0 items-center">
-      {/* <button className="p-4 bg-blue-500 text-white rounded">Reset</button> */}
-      {secondsLeft ? (
-        <div className="m-4 p-4 bg-gray-800 text-white rounded">
-          <p className="text-6xl">{secondsLeft}</p>
-        </div>
-      ) : (
-        <p className="m-2 p-4 text-6xl">Time is up!</p>
-      )}
+    <div className="p-2 fixed top-0 right-0 flex items-center">
+      <div className="mr-4">
+        <button 
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"
+          onClick={() => resetTimer()}
+        >
+          Steal
+        </button>
+      </div>
+      
+      <div className="w-32 h-32 flex items-center justify-center">
+        {secondsLeft > 0 ? (
+          <div className={`w-full h-full ${getTimerColor()} text-white rounded flex items-center justify-center transition-colors`}>
+            <p className="text-6xl">{secondsLeft}</p>
+          </div>
+        ) : (
+          <div className="w-full h-full bg-gray-800 text-white rounded flex items-center justify-center">
+            <p className="text-4xl text-center">Time&apos;s up!</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

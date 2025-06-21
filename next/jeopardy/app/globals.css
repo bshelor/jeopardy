@@ -35,3 +35,18 @@ body {
 .table-container {
   height: calc(100vh - 5px); /* Adjust subtraction based on your header/footer height */
 }
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}

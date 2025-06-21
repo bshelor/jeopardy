@@ -6,6 +6,7 @@ import Table from '../components/Table';
 import FileUploader from '../components/FileUploader';
 import FileDownloader from '../components/FileDownloader';
 import AnswerCell from '../components/Answer';
+import TimerSettings from '../components/TimerSettings';
 
 const isFalse = (s: string) => {
   switch (s) {
@@ -32,6 +33,10 @@ export default function Game() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
   const [cellPointsMap, setCellPointsMap] = useState<CellPoints[]>([]); // Track which team received points for each cell
+  
+  // Timer settings state
+  const [timerSeconds, setTimerSeconds] = useState<number>(60);
+  const [showTimerSettings, setShowTimerSettings] = useState<boolean>(false);
 
   useEffect(() => {
     const headers = csvData ? csvData[0].filter((d: string) => d.trim().length) : [];
@@ -179,7 +184,7 @@ export default function Game() {
   };
 
   /**
-   * Reassign points from one team to another
+   * Reassign points from one team to another or assign points to a team if not already assigned
    * @param row - Row of the cell
    * @param cellIndex - Index of the cell
    * @param toTeamId - ID of the team to give points to
@@ -190,9 +195,29 @@ export default function Game() {
       record => record.rowId === row && record.cellIndex === cellIndex
     );
 
-    if (!cellPointsRecord) return;
+    // Get the points value from the gameBoard
+    const cellData = gameBoard[row as keyof typeof gameBoard][cellIndex];
+    const points = cellData.Points;
 
-    const { teamId: fromTeamId, points } = cellPointsRecord;
+    if (!cellPointsRecord) {
+      // This is a new assignment (no team had these points before)
+      // Update the team's score
+      setTeams(teams.map(team => {
+        if (team.id === toTeamId) {
+          return { ...team, score: team.score + points };
+        }
+        return team;
+      }));
+
+      // Add to cell points map
+      setCellPointsMap([
+        ...cellPointsMap,
+        { rowId: row, cellIndex, points, teamId: toTeamId }
+      ]);
+      return;
+    }
+
+    const { teamId: fromTeamId } = cellPointsRecord;
     
     // If reassigning to the same team, do nothing
     if (fromTeamId === toTeamId) return;
@@ -230,6 +255,7 @@ export default function Game() {
               disableCell={disableCell}
               teams={teams}
               updateTeamScore={updateTeamScore}
+              timerSeconds={timerSeconds}
             />
           )}
           {!selectedCell && (
@@ -246,6 +272,10 @@ export default function Game() {
               updateTeamName={updateTeamName}
               reassignPoints={reassignPoints}
               cellPointsMap={cellPointsMap}
+              timerSeconds={timerSeconds}
+              setTimerSeconds={setTimerSeconds}
+              showTimerSettings={showTimerSettings}
+              setShowTimerSettings={setShowTimerSettings}
             />
           )}
         </div>

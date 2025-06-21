@@ -68,7 +68,7 @@ export default function TableCell({
         {cellData.Points}
       </button>
       
-      {isDisabled && cellPointsRecord && (
+      {isDisabled && (
         <button
           onClick={handleReassignClick}
           className="absolute top-1 right-1 opacity-50 hover:opacity-100 transition-opacity z-10"
@@ -83,7 +83,9 @@ export default function TableCell({
       {showReassignModal && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-96 max-w-[90vw]">
-            <h3 className="text-lg font-bold mb-3 text-black">Reassign {cellData.Points} Points</h3>
+            <h3 className="text-lg font-bold mb-3 text-black">
+              {cellPointsRecord ? `Reassign ${cellData.Points} Points` : `Assign ${cellData.Points} Points`}
+            </h3>
             
             {currentTeamWithPoints && (
               <p className="mb-2 text-sm text-gray-600">
@@ -98,7 +100,7 @@ export default function TableCell({
             >
               <option value="" className="text-black">Select a team</option>
               {teams.map((team: Team) => (
-                team.id !== currentTeamWithPoints?.id && (
+                (!currentTeamWithPoints || team.id !== currentTeamWithPoints?.id) && (
                   <option key={team.id} value={team.id} className="text-black">
                     {team.name} (Current: {team.score})
                   </option>
@@ -112,7 +114,7 @@ export default function TableCell({
                 disabled={!selectedTeamId}
                 className={`px-3 py-1 rounded text-sm ${selectedTeamId ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
               >
-                Reassign
+                {cellPointsRecord ? 'Reassign' : 'Assign'}
               </button>
               
               <button

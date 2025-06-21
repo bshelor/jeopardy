@@ -8,6 +8,7 @@ interface TeamScoreboardProps {
   showTeamModal: boolean;
   setShowTeamModal: (show: boolean) => void;
   updateTeamName?: (teamId: string, newName: string) => void;
+  timerSettingsOpen?: boolean;
 }
 
 export default function TeamScoreboard({ 
@@ -15,7 +16,8 @@ export default function TeamScoreboard({
   addTeam, 
   showTeamModal, 
   setShowTeamModal,
-  updateTeamName = () => {} // Default empty function
+  updateTeamName = () => {}, // Default empty function
+  timerSettingsOpen = false
 }: TeamScoreboardProps) {
   const [newTeamName, setNewTeamName] = useState<string>('');
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
@@ -57,7 +59,7 @@ export default function TeamScoreboard({
   };
 
   return (
-    <div className="absolute top-32 left-2 z-10">
+    <div className={`absolute left-2 z-10 transition-all duration-300 ${timerSettingsOpen ? 'top-[320px]' : 'top-[220px]'}`}>
       <div className={`bg-white bg-opacity-95 p-4 rounded-lg shadow-md border border-gray-200 transition-all duration-300 ${showTeamModal ? 'w-[350px]' : 'w-[215px]'}`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-lg font-bold text-black pr-4">Scoreboard</h3>
