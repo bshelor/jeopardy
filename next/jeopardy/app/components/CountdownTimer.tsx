@@ -45,7 +45,7 @@ const CountdownTimer = ({ initialSeconds, onTimeUp }: CountdownTimerProps) => {
   };
 
   return (
-    <div className="p-2 fixed top-0 right-0 flex items-center">
+    <div className="p-2 fixed top-14 right-0 flex items-center">
       <div className="mr-4">
         <button 
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PencilIcon } from '@heroicons/react/24/solid';
 import { Team, CellPoints } from '../lib/definitions';
 
@@ -16,11 +16,17 @@ export default function TableCell({
   onCellClick: (cellData: any, row: string, index: number) => void;
   row: string;
   teams: Team[];
-  reassignPoints: (row: string, cellIndex: number, toTeamId: string) => void;
+  reassignPoints: (row: string, cellIndex: number, toTeamId: string, customPointsValue?: number) => void;
   cellPointsMap?: CellPoints[];
 }) {
   const [showReassignModal, setShowReassignModal] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState<string>('');
+  const [customPoints, setCustomPoints] = useState<string>(cellData.DailyDouble ? (cellData.Points * 2).toString() : cellData.Points.toString());
+
+  // Reset custom points value when data changes or Daily Double status changes
+  useEffect(() => {
+    setCustomPoints(cellData.DailyDouble ? (cellData.Points * 2).toString() : cellData.Points.toString());
+  }, [cellData.Points, cellData.DailyDouble]);
   
   const isDisabled = cellData.Disabled ? cellData.Disabled : false;
   const cellStyling = `border border-gray-300 ${isDisabled ? 'bg-black relative' : 'hover:bg-blue-100 cursor-pointer'}`;
@@ -43,7 +49,10 @@ export default function TableCell({
   
   const handleReassignPoints = () => {
     if (selectedTeamId) {
-      reassignPoints(row, index, selectedTeamId);
+      // Always use the value from the custom points input
+      const pointsToAssign = parseInt(customPoints);
+
+      reassignPoints(row, index, selectedTeamId, pointsToAssign);
       setShowReassignModal(false);
       setSelectedTeamId('');
     }
@@ -84,12 +93,14 @@ export default function TableCell({
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-96 max-w-[90vw]">
             <h3 className="text-lg font-bold mb-3 text-black">
-              {cellPointsRecord ? `Reassign ${cellData.Points} Points` : `Assign ${cellData.Points} Points`}
+              {cellPointsRecord ? 
+                `Reassign Points (${cellData.Category})` : 
+                `Assign Points (${cellData.Category})`}
             </h3>
             
             {currentTeamWithPoints && (
               <p className="mb-2 text-sm text-gray-600">
-                Currently assigned to: {currentTeamWithPoints.name}
+                Currently assigned to: <span className="font-medium">{currentTeamWithPoints.name}</span> ({cellPointsRecord?.points} points)
               </p>
             )}
             
@@ -107,15 +118,30 @@ export default function TableCell({
                 )
               ))}
             </select>
+
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Points {cellData.DailyDouble && <span className="text-yellow-600">(Daily Double)</span>}
+              </label>
+              <input
+                type="number"
+                value={customPoints}
+                onChange={(e) => setCustomPoints(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded text-black"
+                placeholder="Enter points (negative allowed)"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Default: {cellData.DailyDouble ? `${cellData.Points * 2} (Daily Double)` : cellData.Points} | Negative values allowed
+              </p>
+            </div>
             
-            <div className="flex justify-between mt-3">
-              <button
-                onClick={handleReassignPoints}
-                disabled={!selectedTeamId}
-                className={`px-3 py-1 rounded text-sm ${selectedTeamId ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-              >
-                {cellPointsRecord ? 'Reassign' : 'Assign'}
-              </button>
+            <div className="flex justify-between mt-3">                <button
+                  onClick={handleReassignPoints}
+                  disabled={!selectedTeamId}
+                  className={`px-3 py-1 rounded text-sm ${selectedTeamId ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                >
+                  {cellPointsRecord ? 'Reassign' : 'Assign'} {parseInt(customPoints)} Points
+                </button>
               
               <button
                 onClick={closeModal}

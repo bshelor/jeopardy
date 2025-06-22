@@ -82,7 +82,6 @@ export default function Game() {
   }, [csvData]);
 
   useEffect(() => {
-    console.log("🚀 ~ Game ~ gameBoard:", gameBoard)
   }, [gameBoard]);
 
   const handleCellClick = (content: any, row: string, index: number) => {
@@ -193,8 +192,9 @@ export default function Game() {
    * @param row - Row of the cell
    * @param cellIndex - Index of the cell
    * @param toTeamId - ID of the team to give points to
+   * @param customPointsValue - Optional custom points value to assign (can be negative)
    */
-  const reassignPoints = (row: string, cellIndex: number, toTeamId: string) => {
+  const reassignPoints = (row: string, cellIndex: number, toTeamId: string, customPointsValue?: number) => {
     // Find the cell points record
     const cellPointsRecord = cellPointsMap.find(
       record => record.rowId === row && record.cellIndex === cellIndex
@@ -202,7 +202,8 @@ export default function Game() {
 
     // Get the points value from the gameBoard
     const cellData = gameBoard[row as keyof typeof gameBoard][cellIndex];
-    const points = cellData.Points;
+    // Use custom points if provided, otherwise use the default cell points
+    const points = customPointsValue !== undefined ? customPointsValue : cellData.Points;
 
     if (!cellPointsRecord) {
       // This is a new assignment (no team had these points before)
@@ -222,15 +223,37 @@ export default function Game() {
       return;
     }
 
-    const { teamId: fromTeamId } = cellPointsRecord;
+    const { teamId: fromTeamId, points: originalPoints } = cellPointsRecord;
     
-    // If reassigning to the same team, do nothing
-    if (fromTeamId === toTeamId) return;
+    // If reassigning to the same team and points are the same, do nothing
+    if (fromTeamId === toTeamId && originalPoints === points) return;
 
-    // Update teams' scores
+    // If reassigning to the same team but with different points value
+    if (fromTeamId === toTeamId) {
+      // Just update the point difference
+      const pointDifference = points - originalPoints;
+      
+      setTeams(teams.map(team => {
+        if (team.id === toTeamId) {
+          return { ...team, score: team.score + pointDifference };
+        }
+        return team;
+      }));
+      
+      // Update cell points map with new points value
+      setCellPointsMap(cellPointsMap.map(record => {
+        if (record.rowId === row && record.cellIndex === cellIndex) {
+          return { ...record, points };
+        }
+        return record;
+      }));
+      return;
+    }
+
+    // Reassigning to a different team
     setTeams(teams.map(team => {
       if (team.id === fromTeamId) {
-        return { ...team, score: team.score - points };
+        return { ...team, score: team.score - originalPoints };
       }
       if (team.id === toTeamId) {
         return { ...team, score: team.score + points };
@@ -241,7 +264,7 @@ export default function Game() {
     // Update cell points map
     setCellPointsMap(cellPointsMap.map(record => {
       if (record.rowId === row && record.cellIndex === cellIndex) {
-        return { ...record, teamId: toTeamId };
+        return { ...record, teamId: toTeamId, points };
       }
       return record;
     }));
@@ -257,7 +280,6 @@ export default function Game() {
     try {
       // Load categories and game board
       if (gameData.headers) setCategories(gameData.headers);
-      console.log("🚀 ~ loadGame ~ gameData.gameBoard:", gameData.gameBoard)
       if (gameData.gameBoard) {
         setGameBoard(JSON.parse(JSON.stringify(gameData.gameBoard)));
       }

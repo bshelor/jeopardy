@@ -22,6 +22,7 @@ export default function AnswerCell({
   const [slideIn, setSlideIn] = useState<boolean>(false);
   const [viewTransitioning, setViewTransitioning] = useState<boolean>(false);
   const [transitionDirection, setTransitionDirection] = useState<'question' | 'answer'>('question');
+  const [customPoints, setCustomPoints] = useState<string>(data.DailyDouble ? (data.Points * 2).toString() : data.Points.toString());
 
   useEffect(() => {
     // Trigger slide-in animation after component mounts
@@ -29,6 +30,11 @@ export default function AnswerCell({
       setSlideIn(true);
     }, 50);
   }, []);
+
+  // Reset custom points value when data changes or Daily Double status changes
+  useEffect(() => {
+    setCustomPoints(data.DailyDouble ? (data.Points * 2).toString() : data.Points.toString());
+  }, [data.Points, data.DailyDouble]);
 
   const flipQuestionAndAnswer = () => {
     // Start the transition out
@@ -59,13 +65,11 @@ export default function AnswerCell({
 
   const handlePointAssignment = () => {
     if (selectedTeamId) {
-      if (data.DailyDouble) {
-        // Double the points for Daily Double
-        updateTeamScore(selectedTeamId, data.Points * 2, row, index);
-      } else {
-        // Regular point assignment
-        updateTeamScore(selectedTeamId, data.Points, row, index);
-      }
+      // Always use the value from the custom points input
+      const pointsToAssign = parseInt(customPoints);
+      
+      // Update team score with the custom points
+      updateTeamScore(selectedTeamId, pointsToAssign, row, index);
       
       // Start exit animation
       setViewTransitioning(true);
@@ -111,23 +115,25 @@ export default function AnswerCell({
   const transitionClasses = getTransitionClasses();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 relative">
+      {/* Category and Points display at the top */}
+      <div className="w-full bg-blue-600 text-white py-2 px-4 text-center font-bold text-xl shadow-md">
+        {data.Category} | {data.Points} {data.DailyDouble && <span className="text-yellow-300">(Daily Double)</span>}
+      </div>
 
       {data.DailyDouble && <DailyDouble></DailyDouble>}
 
-      <TopLeftContent>
+      <div className="absolute top-14 left-2 z-10">
         <GoBackButton handleButtonClick={clearCellClick}></GoBackButton>
-      </TopLeftContent>
+      </div>
 
       <CountdownTimer initialSeconds={timerSeconds} />
       
-      <div className="flex items-center justify-center bg-gray-100">
+      <div className="flex items-center justify-center bg-gray-100 flex-1 mt-8 pt-16">
         {/* Main content container with unified transition */}
         <div className={`overflow-x-auto max-w-full mx-8 transform transition-all duration-500 ease-in-out ${transitionClasses}`}>
-          {data.DailyDouble && <div className="text-xl text-yellow-400 text-center font-bold"><p>Daily Double</p></div>}
-          
           {/* Question/Answer Box */}
-          <div className={`p-12 bg-gray-200 ${dailyDoubleStyling} rounded mt-4 text-center shadow-lg`}>
+          <div className={`p-12 bg-gray-200 ${dailyDoubleStyling} rounded text-center shadow-lg`}>
             <p className="text-6xl text-black leading-relaxed tracking-wide font-semibold">{visibleText}</p>
           </div>
 
@@ -152,9 +158,13 @@ export default function AnswerCell({
 
             {showPointAssignment && (
               <div className="mt-8 p-4 bg-white rounded-lg shadow-md">
-                <h3 className="text-lg font-bold mb-3 text-black">Assign Points: {data.DailyDouble ? (data.Points * 2) : data.Points}</h3>
+                <h3 className="text-lg font-bold mb-3 text-black">
+                  Assign Points
+                </h3>
                 
                 <div className="mb-4">
+                  {/* Team Selection */}
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Select Team</label>
                   <select 
                     className="w-full p-2 border border-gray-300 rounded mb-3 text-black transition-all duration-300"
                     value={selectedTeamId}
@@ -166,7 +176,24 @@ export default function AnswerCell({
                     ))}
                   </select>
                   
-                  <div className="flex justify-between">
+                  {/* Custom Points Input - Always visible */}
+                  <div className="mb-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Points {data.DailyDouble && <span className="text-yellow-600">(Daily Double)</span>}
+                    </label>
+                    <input
+                      type="number"
+                      value={customPoints}
+                      onChange={(e) => setCustomPoints(e.target.value)}
+                      className="w-full p-2 border border-gray-300 rounded text-black"
+                      placeholder="Enter points (negative allowed)"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Default: {data.DailyDouble ? `${data.Points * 2} (Daily Double)` : data.Points} | Negative values allowed
+                    </p>
+                  </div>
+                  
+                  <div className="flex justify-between mt-4">
                     <button
                       onClick={handlePointAssignment}
                       disabled={!selectedTeamId}
