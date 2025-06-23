@@ -60,7 +60,7 @@ export default function TeamScoreboard({
 
   return (
     <div className={`absolute left-2 z-10 transition-all duration-300 ${timerSettingsOpen ? 'top-[360px]' : 'top-[260px]'}`}>
-      <div className={`bg-white bg-opacity-95 p-4 rounded-lg shadow-md border border-gray-200 transition-all duration-300 ${showTeamModal ? 'w-[350px]' : 'w-[215px]'}`}>
+      <div className={`bg-white bg-opacity-95 p-4 rounded-lg shadow-md border border-gray-200 transition-all duration-300 ${showTeamModal ? 'w-[350px] max-w-[95vw]' : 'w-[260px]'}`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-lg font-bold text-black pr-4">Scoreboard</h3>
           <button 
@@ -99,17 +99,17 @@ export default function TeamScoreboard({
 
         {teams.length > 0 ? (
           <div className="max-h-[calc(100vh-300px)] overflow-y-auto">
-            <table className="w-full">
+            <table className="w-full table-fixed">
               <thead>
                 <tr className="border-b-2 border-gray-300">
-                  <th className="text-left p-2 text-black font-bold">Team</th>
-                  <th className="text-right p-2 text-black font-bold">Score</th>
+                  <th className="text-left p-2 text-black font-bold w-3/4">Team</th>
+                  <th className="text-right p-2 text-black font-bold w-1/4">Score</th>
                 </tr>
               </thead>
               <tbody>
                 {teams.sort((a, b) => a.score < b.score ? 1 : -1).map((team: Team) => (
                   <tr key={team.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="text-left p-2 text-black">
+                    <td className="text-left p-2 text-black max-w-0 w-3/4">
                       {editingTeamId === team.id ? (
                         <div className="flex items-center">
                           <input
@@ -122,12 +122,12 @@ export default function TeamScoreboard({
                           />
                         </div>
                       ) : (
-                        <div className="flex items-center justify-between group">
-                          <span className="truncate max-w-[160px]">{team.name}</span>
+                        <div className="flex items-center group">
+                          <span className="truncate block pr-1" title={team.name}>{team.name}</span>
                           {showTeamModal && (
                             <button 
                               onClick={() => startEditingTeam(team)} 
-                              className="ml-1 text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="flex-shrink-0 ml-1 text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"
                             >
                               <div className="border bg-black border-black rounded p-[2px] text-white">
                                 <PencilIcon className="h-3 w-3" />
@@ -137,7 +137,7 @@ export default function TeamScoreboard({
                         </div>
                       )}
                     </td>
-                    <td className="text-right p-2 font-bold text-black text-lg">
+                    <td className="text-right p-2 font-bold text-black text-lg whitespace-nowrap w-1/4 min-w-[70px]">
                       {editingTeamId === team.id ? (
                         <div className="flex space-x-1 justify-end">
                           <button 
